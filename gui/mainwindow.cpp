@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QSaveFile>
 #include <QTimer>
 
 #include "mainwindow.h"
@@ -69,10 +70,21 @@ void MainWindow::clearStatus()
 
 void MainWindow::saveTextFile(const QString& filepath)
 {
+    QSaveFile file(filepath);
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QString content = ui->textEdit->toPlainText();
+        QTextStream out(&file);
+        out << content;
+        file.commit();
+    } else {
+        qWarning() << Q_FUNC_INFO << "Error opening file.";
+        return;
+    }
 
     QFileInfo info(filepath);
     setStatus("Saved file " + info.fileName());
     ui->filenameLabel->setText(info.fileName());
+    m_currentFilepath = filepath;
 }
 
 void MainWindow::openTextFile(const QString& filepath)
@@ -96,14 +108,15 @@ void MainWindow::openTextFile(const QString& filepath)
 
     setStatus("Opened file " + info.fileName());
     ui->filenameLabel->setText(info.fileName());
+    m_currentFilepath = filepath;
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-    if (m_currentFilename.isEmpty()) {
+    if (m_currentFilepath.isEmpty()) {
         on_actionSave_As_triggered();
     } else {
-        saveTextFile(m_currentFilename);
+        saveTextFile(m_currentFilepath);
     }
 }
 

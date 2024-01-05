@@ -42,6 +42,6 @@ private:
     QSettings m_settings;
     QThread m_workerThread;
 
-    QString m_currentFilename;
+    QString m_currentFilepath;
 };
 #endif // MAINWINDOW_H
