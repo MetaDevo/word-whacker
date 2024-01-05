@@ -1,0 +1,25 @@
+QWidget { 
+    color: rgb(0, 0, 0);
+}
+
+QWidget#MainWindow { 
+    background-color: rgb(20, 20, 20);
+}
+
+QTextEdit {
+    border: 2 px;
+    border-style: solid;
+    border-color: rgb(40, 40, 40);
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font: 16px "Courier New";
+}
+
+QLabel {
+    color: rgb(0, 200, 0);
+}
+
+QScrollBar:vertical {
+    color: rgb(0, 128, 0);
+    background: rgb(0, 0, 0);
+}
