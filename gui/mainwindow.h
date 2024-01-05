@@ -37,6 +37,7 @@ signals:
 
 private:
     void contextMenuEvent(QContextMenuEvent* event);
+    void setupShortcuts();
 
     Ui::MainWindow* ui;
     QSettings m_settings;

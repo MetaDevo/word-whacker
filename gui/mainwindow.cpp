@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui->setupUi(this);
     changeStylesheet();
-
+    setupShortcuts();
 
 //    QFont font;
 //    font.setFamily("Courier");
@@ -40,6 +40,14 @@ void MainWindow::contextMenuEvent(QContextMenuEvent* event)
     menu.addSeparator();
     menu.addAction(ui->actionSettings);
     menu.exec(event->globalPos());
+}
+
+void MainWindow::setupShortcuts()
+{
+    addAction(ui->actionOpen);
+    addAction(ui->actionSave);
+    addAction(ui->actionSave_As);
+    addAction(ui->actionSettings);
 }
 
 void MainWindow::changeStylesheet()
@@ -101,7 +109,9 @@ void MainWindow::openTextFile(const QString& filepath)
     QFileInfo info(filepath);
     QString extension = info.completeSuffix();
     if (extension == "md" || extension == "markdown") {
-        ui->textEdit->setMarkdown(content);
+        //ui->textEdit->setMarkdown(content);
+        ///@todo use syntax highlighting for markdown
+        ui->textEdit->setText(content);
     } else {
         ui->textEdit->setText(content);
     }
