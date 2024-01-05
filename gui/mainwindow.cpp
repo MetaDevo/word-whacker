@@ -123,11 +123,15 @@ void MainWindow::openTextFile(const QString& filepath)
 
 void MainWindow::on_actionSave_triggered()
 {
+#ifdef IS_WEBASM
+    on_actionSave_As_triggered();
+#else
     if (m_currentFilepath.isEmpty()) {
         on_actionSave_As_triggered();
     } else {
         saveTextFile(m_currentFilepath);
     }
+#endif
 }
 
 
@@ -140,6 +144,17 @@ void MainWindow::on_actionSave_As_triggered()
         lastDir = QDir::home().path();
     }
 
+#ifdef IS_WEBASM
+    QString nameHint = "untitled.txt";
+    if (!m_currentFilepath.isEmpty()) {
+        nameHint = QFileInfo(m_currentFilepath).fileName();
+    }
+    QByteArray contentArray = ui->textEdit->toPlainText().toLocal8Bit();
+    QFileDialog::saveFileContent(contentArray, nameHint);
+    ///@todo we don't know the file name running via webasm?
+    setStatus("Saved file");
+    //ui->filenameLabel->setText(info.fileName());
+#else
     QString filepath = QFileDialog::getSaveFileName(this, tr("Save File"), lastDir, tr("Text Files (*.txt *.md)"));
     if (!filepath.isEmpty()) {
         saveTextFile(filepath);
@@ -147,6 +162,8 @@ void MainWindow::on_actionSave_As_triggered()
     } else {
         qWarning() << Q_FUNC_INFO << "Error: invalid path";
     }
+#endif
+
 }
 
 
@@ -165,13 +182,30 @@ void MainWindow::on_actionOpen_triggered()
         lastDir = QDir::home().path();
     }
 
-    QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"), lastDir, tr("Text Files (*.txt *.md *.markdown)"));
+#ifdef IS_WEBASM
+    auto fileContentReady = [this](const QString &filepath, const QByteArray &fileContent) {
+        if (filepath.isEmpty()) {
+            qWarning() << Q_FUNC_INFO << "Error: invalid path";
+        } else {
+            QString content(fileContent);
+            ui->textEdit->setText(content);
+            setStatus("Opened file " + filepath);
+            ui->filenameLabel->setText(filepath);
+            m_currentFilepath = filepath;
+            m_settings.setValue("last_open_dir", QFileInfo(filepath).canonicalPath());
+        }
+    };
+    QFileDialog::getOpenFileContent("Text Files (*.txt *.md *.markdown)",  fileContentReady);
+#else
+    QString filepath = QFileDialog::getOpenFileContent(this, tr("Open File"), lastDir, tr("Text Files (*.txt *.md *.markdown)"));
     if (!filepath.isEmpty()) {
         openTextFile(filepath);
         m_settings.setValue("last_open_dir", QFileInfo(filepath).canonicalPath());
     } else {
         qWarning() << Q_FUNC_INFO << "Error: invalid path";
     }
+#endif
+
 }
 
 

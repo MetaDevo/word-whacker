@@ -12,6 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+    message("Building for WebAssembly")
+    add_definitions(-D IS_WEBASM=1)
+endif()
+
 include_directories(
     gui
     include
