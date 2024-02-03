@@ -35,6 +35,8 @@ private slots:
 
     void on_textEdit_textChanged();
 
+    void on_hidePreviewButton_clicked();
+
 signals:
 
 
@@ -42,14 +44,16 @@ private:
     void contextMenuEvent(QContextMenuEvent* event);
     void setupShortcuts();
 
+    static const int STATUS_MILLISECONDS = 2000;
+    static const int MIN_BORDER = 50;
+    static const int NORMAL_CHARS_PER_LINE = 60;
+
     Ui::MainWindow* ui;
     QSettings m_settings;
     QThread m_workerThread;
 
     QString m_currentFilepath;
-    QFont font;
-    static const int MIN_BORDER = 50;
-    static const int NORMAL_CHARS_PER_LINE = 60;
+    QFont m_font;
     unsigned int m_charsPerLine = NORMAL_CHARS_PER_LINE;
 };
 #endif // MAINWINDOW_H

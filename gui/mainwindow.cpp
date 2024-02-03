@@ -22,11 +22,13 @@ MainWindow::MainWindow(QWidget* parent)
     changeStylesheet();
     setupShortcuts();
 
-    font.setFamily("Courier");
-    //font.setFixedPitch(true);
-    font.setPointSize(16);
-    //font.setWeight(QFont::Bold);
-    ui->textEdit->setFont(font);
+    ui->textEditRich->setVisible(false);
+
+    m_font.setFamily("Courier");
+    m_font.setFixedPitch(true);
+    m_font.setPointSize(16);
+    //m_font.setWeight(QFont::Bold);
+    ui->textEdit->setFont(m_font);
 
     updateEditorSize();
 
@@ -45,7 +47,7 @@ void MainWindow::updateEditorSize()
         screenWidth = s->size().width();
     }
     const qreal devicePixelRatio = this->devicePixelRatio();
-    QFontInfo fontInfo(font);
+    QFontInfo fontInfo(m_font);
     qDebug() << "pixel size:" << fontInfo.pixelSize();
     qDebug() << "point size:" << fontInfo.pointSize();
     int textEditWidth = (fontInfo.pixelSize() * m_charsPerLine) / devicePixelRatio;
@@ -95,7 +97,7 @@ void MainWindow::changeStylesheet()
 void MainWindow::setStatus(const QString& status)
 {
     ui->statusLabel->setText(status);
-    QTimer::singleShot(2000, this, &MainWindow::clearStatus);
+    QTimer::singleShot(STATUS_MILLISECONDS, this, &MainWindow::clearStatus);
 }
 
 void MainWindow::clearStatus()
@@ -135,12 +137,11 @@ void MainWindow::openTextFile(const QString& filepath)
 
     QFileInfo info(filepath);
     QString extension = info.completeSuffix();
+    ui->textEdit->setText(content);
     if (extension == "md" || extension == "markdown") {
-        //ui->textEdit->setMarkdown(content);
-        ///@todo use syntax highlighting for markdown
-        ui->textEdit->setText(content);
-    } else {
-        ui->textEdit->setText(content);
+        ui->textEditRich->setMarkdown(content);
+        ui->textEditRich->setVisible(true);
+        ui->hidePreviewButton->setVisible(true);
     }
 
     setStatus("Opened file " + info.fileName());
@@ -239,5 +240,11 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_textEdit_textChanged()
 {
 
+}
+
+void MainWindow::on_hidePreviewButton_clicked()
+{
+    ui->textEditRich->setVisible(false);
+    ui->hidePreviewButton->setVisible(false);
 }
 

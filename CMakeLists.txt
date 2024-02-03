@@ -25,7 +25,9 @@ include_directories(
 set(TS_FILES wordwhacker_en_US.ts)
 
 set(PROJECT_SOURCES
+        include/Document.hpp
         src/main.cpp
+        src/Document.cpp
         gui/mainwindow.cpp
         gui/mainwindow.h
         gui/mainwindow.ui
