@@ -2,11 +2,13 @@
 
 #include <QApplication>
 #include <QLocale>
+#include <QScreen>
 #include <QTranslator>
+#include <QWindow>
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setApplicationVersion("0.0.0");
+    QCoreApplication::setApplicationVersion("0.0.1");
     QCoreApplication::setApplicationName("WordWhacker");
     QCoreApplication::setOrganizationName("MetaDevo");
     QCoreApplication::setOrganizationDomain("metadevo.com");
@@ -23,6 +25,7 @@ int main(int argc, char *argv[])
         }
     }
     MainWindow w;
+
     w.show();
     return a.exec();
 }

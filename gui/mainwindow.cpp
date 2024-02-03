@@ -4,8 +4,12 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QFont>
+#include <QFontInfo>
 #include <QSaveFile>
+#include <QScreen>
 #include <QTimer>
+#include <QWindow>
 
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
@@ -18,16 +22,39 @@ MainWindow::MainWindow(QWidget* parent)
     changeStylesheet();
     setupShortcuts();
 
-//    QFont font;
-//    font.setFamily("Courier");
-//    font.setFixedPitch(true);
-//    font.setPointSize(16);
-//    ui->textEdit->setFont(font);
+    font.setFamily("Courier");
+    //font.setFixedPitch(true);
+    font.setPointSize(16);
+    //font.setWeight(QFont::Bold);
+    ui->textEdit->setFont(font);
+
+    updateEditorSize();
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateEditorSize()
+{
+    int screenWidth = 1920;
+    QScreen* s = this->screen();
+    if (s) {
+        screenWidth = s->size().width();
+    }
+    const qreal devicePixelRatio = this->devicePixelRatio();
+    QFontInfo fontInfo(font);
+    qDebug() << "pixel size:" << fontInfo.pixelSize();
+    qDebug() << "point size:" << fontInfo.pointSize();
+    int textEditWidth = (fontInfo.pixelSize() * m_charsPerLine) / devicePixelRatio;
+    int maxWidth = screenWidth - (MIN_BORDER * 2);
+    if (textEditWidth > maxWidth) {
+        textEditWidth = maxWidth;
+    }
+
+    ui->textEdit->setFixedWidth(textEditWidth);
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent* event)
@@ -197,7 +224,7 @@ void MainWindow::on_actionOpen_triggered()
     };
     QFileDialog::getOpenFileContent("Text Files (*.txt *.md *.markdown)",  fileContentReady);
 #else
-    QString filepath = QFileDialog::getOpenFileContent(this, tr("Open File"), lastDir, tr("Text Files (*.txt *.md *.markdown)"));
+    QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"), lastDir, tr("Text Files (*.txt *.md *.markdown)"));
     if (!filepath.isEmpty()) {
         openTextFile(filepath);
         m_settings.setValue("last_open_dir", QFileInfo(filepath).canonicalPath());

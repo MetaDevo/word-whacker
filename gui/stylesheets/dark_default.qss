@@ -12,7 +12,7 @@ QTextEdit {
     border-color: rgb(40, 40, 40);
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
-    font: 16px "Courier New";
+    /*font: 16px "Courier New";*/
 }
 
 QLabel {
