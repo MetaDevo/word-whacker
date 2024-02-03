@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget* parent)
     setupShortcuts();
 
     ui->textEditRich->setVisible(false);
+    ui->hidePreviewButton->setVisible(false);
+    ui->actionMarkdown_Preview->setVisible(false);
 
     m_font.setFamily("Courier");
     m_font.setFixedPitch(true);
@@ -67,6 +69,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent* event)
     menu.addAction(ui->actionSave);
     menu.addAction(ui->actionSave_As);
     menu.addSeparator();
+    menu.addAction(ui->actionMarkdown_Preview);
     menu.addAction(ui->actionSettings);
     menu.exec(event->globalPos());
 }
@@ -138,10 +141,21 @@ void MainWindow::openTextFile(const QString& filepath)
     QFileInfo info(filepath);
     QString extension = info.completeSuffix();
     ui->textEdit->setText(content);
-    if (extension == "md" || extension == "markdown") {
+    if (extension == "md" || extension == "markdown")
+    {
         ui->textEditRich->setMarkdown(content);
+        m_docIsMarkdown = true;
         ui->textEditRich->setVisible(true);
         ui->hidePreviewButton->setVisible(true);
+        ui->actionMarkdown_Preview->setVisible(true);
+    }
+    else
+    {
+        ui->textEditRich->clear();
+        m_docIsMarkdown = false;
+        ui->textEditRich->setVisible(false);
+        ui->hidePreviewButton->setVisible(false);
+        ui->actionMarkdown_Preview->setVisible(false);
     }
 
     setStatus("Opened file " + info.fileName());
@@ -246,5 +260,12 @@ void MainWindow::on_hidePreviewButton_clicked()
 {
     ui->textEditRich->setVisible(false);
     ui->hidePreviewButton->setVisible(false);
+}
+
+
+void MainWindow::on_actionMarkdown_Preview_triggered()
+{
+    ui->textEditRich->setVisible(true);
+    ui->hidePreviewButton->setVisible(true);
 }
 

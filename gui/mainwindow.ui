@@ -224,6 +224,14 @@
     <string>Ctrl+O</string>
    </property>
   </action>
+  <action name="actionMarkdown_Preview">
+   <property name="text">
+    <string>Markdown Preview</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Markdown Preview</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

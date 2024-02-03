@@ -37,6 +37,8 @@ private slots:
 
     void on_hidePreviewButton_clicked();
 
+    void on_actionMarkdown_Preview_triggered();
+
 signals:
 
 
@@ -52,6 +54,7 @@ private:
     QSettings m_settings;
     QThread m_workerThread;
 
+    bool m_docIsMarkdown = false;
     QString m_currentFilepath;
     QFont m_font;
     unsigned int m_charsPerLine = NORMAL_CHARS_PER_LINE;
