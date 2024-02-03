@@ -252,11 +252,16 @@ void MainWindow::on_actionOpen_triggered()
 
 }
 
-void MainWindow::on_textEdit_textChanged()
+void MainWindow::markdownUpdate()
 {
     if (m_docIsMarkdown) {
         ui->textEditRich->setMarkdown(ui->textEdit->toPlainText());
     }
+}
+
+void MainWindow::on_textEdit_textChanged()
+{
+    markdownUpdate();
 }
 
 void MainWindow::on_hidePreviewButton_clicked()
@@ -268,6 +273,7 @@ void MainWindow::on_hidePreviewButton_clicked()
 
 void MainWindow::on_actionMarkdown_Preview_triggered()
 {
+    markdownUpdate();
     ui->textEditRich->setVisible(true);
     ui->hidePreviewButton->setVisible(true);
 }

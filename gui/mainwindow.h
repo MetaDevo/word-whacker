@@ -41,6 +41,7 @@ signals:
 private:
     void contextMenuEvent(QContextMenuEvent* event);
     void setupShortcuts();
+    void markdownUpdate();
 
     static const int STATUS_MILLISECONDS = 2000;
     static const int MIN_BORDER = 50;
