@@ -26,18 +26,14 @@ private slots:
     void clearStatus();
     void saveTextFile(const QString& filepath);
     void openTextFile(const QString& filepath);
-
     void on_actionSave_triggered();
     void on_actionSave_As_triggered();
     void on_actionSettings_triggered();
-
     void on_actionOpen_triggered();
-
     void on_textEdit_textChanged();
-
     void on_hidePreviewButton_clicked();
-
     void on_actionMarkdown_Preview_triggered();
+    void on_actionFull_Screen_triggered(bool checked);
 
 signals:
 

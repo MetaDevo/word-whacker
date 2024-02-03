@@ -44,7 +44,7 @@ MainWindow::~MainWindow()
 void MainWindow::updateEditorSize()
 {
     int screenWidth = 1920;
-    QScreen* s = this->screen();
+    QScreen* s = screen();
     if (s) {
         screenWidth = s->size().width();
     }
@@ -69,6 +69,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent* event)
     menu.addAction(ui->actionSave);
     menu.addAction(ui->actionSave_As);
     menu.addSeparator();
+    menu.addAction(ui->actionFull_Screen);
     menu.addAction(ui->actionMarkdown_Preview);
     menu.addAction(ui->actionSettings);
     menu.exec(event->globalPos());
@@ -80,6 +81,7 @@ void MainWindow::setupShortcuts()
     addAction(ui->actionSave);
     addAction(ui->actionSave_As);
     addAction(ui->actionSettings);
+    addAction(ui->actionFull_Screen);
 }
 
 void MainWindow::changeStylesheet()
@@ -250,7 +252,6 @@ void MainWindow::on_actionOpen_triggered()
 
 }
 
-
 void MainWindow::on_textEdit_textChanged()
 {
     if (m_docIsMarkdown) {
@@ -265,10 +266,18 @@ void MainWindow::on_hidePreviewButton_clicked()
     ui->textEditRich->clear();
 }
 
-
 void MainWindow::on_actionMarkdown_Preview_triggered()
 {
     ui->textEditRich->setVisible(true);
     ui->hidePreviewButton->setVisible(true);
+}
+
+void MainWindow::on_actionFull_Screen_triggered(bool checked)
+{
+    if (checked) {
+        setWindowState(Qt::WindowFullScreen);
+    } else {
+        setWindowState(Qt::WindowMaximized);
+    }
 }
 
