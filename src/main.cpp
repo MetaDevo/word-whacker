@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setApplicationVersion("0.0.1");
+    QCoreApplication::setApplicationVersion("0.1.0");
     QCoreApplication::setApplicationName("WordWhacker");
     QCoreApplication::setOrganizationName("MetaDevo");
     QCoreApplication::setOrganizationDomain("metadevo.com");
