@@ -1,8 +1,21 @@
-# Word Whacker
-A crossplatform desktop zen / minimalist text editor for creative writing.
+# WordWhacker
+A crossplatform desktop zenware / minimalist text editor for focused writing.
 
-Word Whacker has some support for Markdown and you can preview a formatted markdown output. But all of the editing in Word Whacker is raw text.
+WordWhacker has some support for Markdown and you can preview a formatted markdown output. But all of the editing in Word Whacker is raw text.
 
 ## Platforms
 
-Testing it myself in Windows and Mac. There's also an experimental web version but it doesn't have full functionality.
+Window, Mac, Linux. There's also an experimental web version but it doesn't have full functionality.
+Dependencies
+
+## Build
+
+The quickest way is to open the CMakeLists.txt file in QtCreator and build from there.
+
+## Dependencies
+
+- Qt6
+
+## Contact
+
+Sam Kenyon <sam@metadevo.com>
