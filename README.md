@@ -6,7 +6,6 @@ WordWhacker has some support for Markdown and you can preview a formatted markdo
 ## Platforms
 
 Window, Mac, Linux. There's also an experimental web version but it doesn't have full functionality.
-Dependencies
 
 ## Build
 
